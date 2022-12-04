@@ -19,13 +19,13 @@ public class servidor {
         System.out.println("Cliente Conectado: "+cliente.getInetAddress().getHostAddress());
 
 
-        while(contador<100){
+        while(contador<15){
             DataInputStream input = new DataInputStream(cliente.getInputStream());
             String msgCliente = input.readUTF();
             String jogVencedor;
 
             int jogadaCliente = Integer.parseInt(msgCliente);
-            int jogadaServidor = calcularJogada(jogadas);
+            int jogadaServidor = calcularJogada(jogadas, vitoriasCliente, vitoriasServidor);
 
             jogadas.add(jogadaCliente);
 
@@ -60,9 +60,11 @@ public class servidor {
 
     }
 
-    static int calcularJogada(List<Integer> jogadas){
+    static int calcularJogada(List<Integer> jogadas, int vitoriasCliente,int vitoriasServidor){
         int tamanho = jogadas.size();
+
         if(tamanho == 0) return (int) ((Math.random()*(4))+1);
+        if(vitoriasCliente > vitoriasServidor) return (int) ((Math.random()*(4))+1);
 
         int escolha = (int) ((Math.random()*tamanho));
         return jogadas.get(escolha);
